@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const ToDoList = () => {
 	const [tasks, setTasks] = useState([]);
 	const [newTask, setNewTask] = useState("");
+	const [taskExists, setTaskExists] = useState(false);
+
+	useEffect(() => {
+		let position = tasks.findIndex(task => task === newTask);
+		if (position === -1) {
+			setTaskExists(false);
+		} else {
+			setTaskExists(true);
+		}
+	}, [newTask]);
 
 	const addNewTask = event => {
 		if (event.key.toLowerCase() == "enter" && newTask !== "") {
-			setTasks(tasks.concat(newTask));
-			setNewTask("");
+			let position = tasks.findIndex(task => task === newTask);
+			if (position === -1) {
+				setTasks(tasks.concat(newTask));
+				setNewTask("");
+			}
 		}
 	};
 
